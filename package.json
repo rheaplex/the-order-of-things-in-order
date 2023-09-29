@@ -1,0 +1,15 @@
+{
+  "name": "the-order-of-things-in-order",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rhea Myers",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "puppeteer": "^21.3.6"
+  },
+  "type": "module"
+}
