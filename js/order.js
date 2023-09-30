@@ -118,11 +118,17 @@ const runSequence = async (sequence, seed, count) => {
 
 /* global performance */
 
-export default async function (seed, count) {
-  setupThreeJs();
+export const ordersInOrder = (seed, count) => {
+  console.log('Starting.');
   window.frameNumber = 0;
-  for (const o of orders) {
-    const sequence = new o(scene, performance.now(), seed);
-    await runSequence(sequence, seed, count);
-  };
-}
+  setupThreeJs();
+  return new Promise(async (resolve) => {
+    for (let i = 0; i < orders.length; i++) {
+      console.log(`Rendering: ${orderNames[i]}.`);
+      const sequence = new orders[i](scene, performance.now(), seed);
+      await runSequence(sequence, seed, count);
+      console.log("---");
+    }
+    return "done";
+  });
+};
