@@ -28,8 +28,8 @@ const FILE = `file://${DIR}index.html`;
   
   const browser = await puppeteer.launch({
     // Make GPU acceleration possible
-    headless: false,
-    //headless: 'new',
+    // headless: false,
+    headless: 'new',
     // Run our very time consuming code without timing out.
     protocolTimeout: 1000 * 60 * 480,
     args: [
