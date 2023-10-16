@@ -65,12 +65,13 @@ const setupThreeJs = () => {
   // Fudge to horizontally centre and almost vertically centre (low) cubes
   camera.lookAt(0.25, -0.25, 0.0);
   // ambientLight (245, 245, 245);
-  const ambientLight = new THREE.AmbientLight(0xf5f5f5);
+  const ambientLight = new THREE.AmbientLight(0xffffff);
   scene.add(ambientLight);
   //directionalLight (50, 50, 50, 0, 1, -1);
   // Much brighter and slightly different angle for similar effect to P3D 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
-  directionalLight.position.set(0, 5, 5);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
+  directionalLight.position.set(0, 1, 0.5).normalize();
+  directionalLight.castShadow = true;
   scene.add(directionalLight);
   // For debugging.
   // The X axis is red. The Y axis is green. The Z axis is blue.

@@ -2,12 +2,13 @@
 
 import * as url from 'url';
 import puppeteer from 'puppeteer';
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder-improved';
 
 import { ordersInOrder } from './js/order.js';
 
 const WIDTH = 1280;
 const HEIGHT = 720;
-const COUNT = 5;
+const COUNT = 1;//5;
 
 const DIR = url.fileURLToPath(new URL('.', import.meta.url)).toString();
 const FILE = `file://${DIR}index.html`;
@@ -27,10 +28,10 @@ const FILE = `file://${DIR}index.html`;
   
   const browser = await puppeteer.launch({
     // Make GPU acceleration possible
-    //headless: false,
-    headless: 'new',
+    headless: false,
+    //headless: 'new',
     // Run our very time consuming code without timing out.
-    protocolTimeout: 1000 * 60 * 20,
+    protocolTimeout: 1000 * 60 * 480,
     args: [
       // Avoid Chrome being sad at loading a script from the filesystem
       '--disable-web-security',
@@ -40,14 +41,33 @@ const FILE = `file://${DIR}index.html`;
       //'--enable-gpu',
     ]
   });
+
   const page = await browser.newPage();
   page.on('console', msg => console.log(msg.text()));  
   await page.setViewport({width: WIDTH, height: HEIGHT});
+
+  const recorder = new PuppeteerScreenRecorder(
+    page,
+    {
+      /*videoFrame: {
+        width: WIDTH,
+        height: HEIGHT,
+        },*/
+      aspectRatio: '16:9',
+      format: 'png',
+      fps: 30,
+      videoCodec: 'libx264',
+      videoCrf: 18,
+      //videoPreset: 'medium',
+      videoTune: 'animation',
+    });
+  await recorder.startWritingToStream(`./the-order-of-things-${seed}.mp4`);
+
   await page.goto(FILE);
-  
   console.log(await page.evaluate((s, c) => { return ordersInOrder(s, c); },
                                   seed,
                                   COUNT));
-  
+
+  await recorder.stop();
   await browser.close();
 })();
