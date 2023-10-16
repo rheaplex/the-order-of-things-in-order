@@ -6,8 +6,8 @@ import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder-improved';
 
 import { ordersInOrder } from './js/order.js';
 
-const WIDTH = 1280;
-const HEIGHT = 720;
+const WIDTH = 1024;
+const HEIGHT = 576;
 const COUNT = 1;//5;
 
 const DIR = url.fileURLToPath(new URL('.', import.meta.url)).toString();
@@ -58,7 +58,7 @@ const FILE = `file://${DIR}index.html`;
       fps: 30,
       videoCodec: 'libx264',
       videoCrf: 18,
-      //videoPreset: 'medium',
+      //videoPreset: 'veryfast',
       videoTune: 'animation',
     });
   await recorder.startWritingToStream(`./the-order-of-things-${seed}.mp4`);
